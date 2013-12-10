@@ -106,6 +106,9 @@
 			jQuery("#relativeName", this.form).blur(function(){
 				PATIENTSEARCH.search(true);
 			});
+			jQuery("#otherName", this.form).blur(function(){
+				PATIENTSEARCH.search(true);
+			});
 			jQuery("#nationalId", this.form).blur(function(){
 				PATIENTSEARCH.search(true);
 			});
@@ -251,6 +254,7 @@
 				this.buildGenderQuery();
 				this.buildAgeQuery();
 				this.buildRelativeNameQuery();
+				this.buildOtherNameQuery();
 				this.buildNationalIdQuery();
 				this.buildLastDayOfVisitQuery();
 				this.buildLastVisitQuery();
@@ -296,6 +300,7 @@
 				this.buildGenderQuery();
 				this.buildAgeQuery();
 				this.buildRelativeNameQuery();
+				this.buildOtherNameQuery();
 				this.buildNationalIdQuery();
 				this.buildLastDayOfVisitQuery();
 				this.buildLastVisitQuery();
@@ -387,6 +392,17 @@
 				//this.fromClause += " INNER JOIN person_attribute paRelativeName ON ps.person_id= paRelativeName.person_id";
 				this.fromClause += " INNER JOIN person_attribute_type patRelativeName ON paRelativeName.person_attribute_type_id = patRelativeName.person_attribute_type_id ";
 				this.whereClause += " AND (patRelativeName.name LIKE '%" + personAttributeTypeName + "%' AND paRelativeName.value LIKE '%" + value + "%')";
+			}
+		},
+		
+		/** BUILD QUERY FOR OTHER NAME */
+		buildOtherNameQuery: function(){
+			value = jQuery.trim(jQuery("#otherName", this.form).val());
+			personAttributeTypeName = "Other Name ";
+			if(value!=undefined && value.length>0){
+			    this.fromClause += " INNER JOIN person_attribute paOtherName ON ps.patient_id= paOtherName.person_id";
+				this.fromClause += " INNER JOIN person_attribute_type patOtherName ON paOtherName.person_attribute_type_id = patOtherName.person_attribute_type_id ";
+				this.whereClause += " AND (patOtherName.name LIKE '%" + personAttributeTypeName + "%' AND paOtherName.value LIKE '%" + value + "%')";
 			}
 		},
 		
@@ -564,6 +580,12 @@
 				</td>
 			</tr>
 			<tr>
+				<td>Other Name</td>
+				<td>
+					<input id="otherName" style="width: 100px"/>
+				</td>	
+			</tr>
+			<tr>
 				<td>Last day of visit</td>
 				<td><input id="advanceSearchCalendar" type="hidden" /> <input
 					id="lastDayOfVisit" name="lastDayOfVisit" style="width: 100px" />
@@ -594,7 +616,7 @@
 				</td>	
 			</tr>
 			<tr>
-				<td>National Id</td>
+				<td>National ID</td>
 				<td colspan="3">
 					<input id="nationalId" style="width: 100px"/>
 				</td>	
